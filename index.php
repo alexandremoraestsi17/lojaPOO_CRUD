@@ -10,43 +10,62 @@ if (isset($_GET['acao'])){
     $acao = 'index';
 }
 
-
 switch ($acao){
     case 'index':
         $cat = new CategoriaController();
         $cat->principal();
         exit;
 
-    case 'detalhar':
+    case 'alterar':
+        //pega o ID enviado
+        $id = $_GET['id'];
+        //instancia o controlador
         $cat = new CategoriaController();
-        $cat->detalharCategoria($_GET['id']);
-        exit;
-
-    case 'deletar':
-        $cat = new CategoriaController();
-        $cat->deletarCategoria($_GET['id']);
+        //chama o método
+        $cat->alteracao($id);
         exit;
 
     case 'incluir':
         $cat = new CategoriaController();
-        $cat->incluir();
-
-    case 'inserir':
-        /*$catNova = new Categoria();
-        $catNova = setNome($_POST['nome']);
-        $catNova = setDescricao($_POST['descricao']);*/
-        $nome = $_POST['nome'];
-        $descricao = $_POST['descricao'];
-        $cat = new CategoriaController();
-        $cat->cadastrarCategoria($nome, $descricao);
+        $cat->insercao();
         exit;
 
-    case 'update':
+    case 'gravaInsercao':
+        //pegar dados do POST
+        $categoriaNova = new Categoria();
+        $categoriaNova->setNome($_POST['nome']);
+        $categoriaNova->setDescricao($_POST['descricao']);
         $cat = new CategoriaController();
-        $cat->alterarCategoria($_GET['id'],$_GET['nome'], $_GET['descricao']);
+        $cat->inserir($categoriaNova);
+        exit;
+
+    case 'gravaAlterar':
+        $categoriaAlterada = new Categoria();
+        $categoriaAlterada->setId($_POST['id']);
+        $categoriaAlterada->setNome($_POST['nome']);
+        $categoriaAlterada->setDescricao($_POST['descricao']);
+        $cat = new CategoriaController();
+        $cat->alterar($categoriaAlterada);
+        exit;
+
+    case 'excluir':
+        $cat = new Categoria();
+        $cat->setId($_GET['id']);
+        $catexc = new CategoriaController();
+        $catexc->excluir($cat);
+        exit;
+        
+    case 'consultar':
+        $cat = new Categoria();
+        $cat->setId($_POST['id']);
+        $cat->setNome($_POST['nome']);
+        $cat->setDescricao($_POST['descricao']);
+        $catConsul = new CategoriaController();
+        $catConsul->consultar($cat);
         exit;
     default:
-        echo "Ação inválida!!!";
+        echo "Ação inválida";
+
 }
 
 

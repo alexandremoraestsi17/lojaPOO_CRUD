@@ -1,2 +1,1 @@
-# lojaPOO_CRUD
-CRUD OO PHP - TSI17
+Loja POO - CRUD - TSI17
