@@ -1,17 +1,17 @@
 <?php
 
-require 'CategoriaDAO.php';
+    require 'CategoriaDAO.php';
 //INSERT
-$cat = new Categoria();
-$cat->setNome("Material de Escritório");
-$cat->setDescricao("Tudo para seu escritório!");
+    $cat = new Categoria();
+    $cat->setNome("Material de Escritório");
+    $cat->setDescricao("Tudo para seu escritório!");
 
-$dao = new CategoriaDAO();
-if ($dao->insert($cat)){
-    echo "inserido";
-}else{
-    echo "nao inserido";
-}
+    $dao = new CategoriaDAO();
+    if ($dao->insert($cat)){
+        echo "inserido";
+    }else{
+        echo "nao inserido";
+    }
 
 //UPDATE
 $cat = new Categoria();

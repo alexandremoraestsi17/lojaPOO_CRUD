@@ -4,8 +4,6 @@
  * User: speroni
  * Date: 30/09/18
  * Time: 19:27
- * 
- * data acess object
  */
 
 require_once "config/Database.php";

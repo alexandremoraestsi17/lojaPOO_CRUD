@@ -13,7 +13,7 @@ require_once "view/View.php";
 class CategoriaController
 {
     private $dados;
-    public function principal($msg = null){
+    public function principal(){
         $this->dados = array();
         $catdao = new CategoriaDAO();
 
@@ -22,84 +22,78 @@ class CategoriaController
         }catch (PDOException $e){
             echo "Erro: ".$e->getMessage();
         }
-
         $this->dados['categorias'] = $categorias;
-        if (isset($msg)){
-            $this->dados['mensagem'] = $msg;
-        }
 
         View::carregar('view/template/cabecalho.html');
         View::carregar('view/categoria/listar.php', $this->dados);
         View::carregar('view/template/rodape.html');
     }
 
-    public function detalharCategoria($id){
+    public function consultar($cat){
+        $this->dados = array();
+        $catdao = new CategoriaDAO();
+
+        try{
+            $categorias = $catdao->selectFiltrado($cat);
+        }catch (PDOException $e){
+            echo "Erro: ".$e->getMessage();
+        }
+        $this->dados['categorias'] = $categorias;
+
+        View::carregar('view/template/cabecalho.html');
+        View::carregar('view/categoria/listar.php', $this->dados);
+        View::carregar('view/template/rodape.html');
+    }
+    
+    public function alteracao($id){
         $this->dados = array();
         $catdao = new CategoriaDAO();
 
         try{
             $categorias = $catdao->select($id);
-            //var_dump($categorias);
         }catch (PDOException $e){
             echo "Erro: ".$e->getMessage();
         }
         $this->dados['categorias'] = $categorias;
 
         View::carregar('view/template/cabecalho.html');
-        View::carregar('view/categoria/detalhar.php', $this->dados);
+        View::carregar('view/categoria/detalhes.php', $this->dados);
         View::carregar('view/template/rodape.html');
     }
 
-     public function alterarCategoria($id, $nome, $descricao){
-        $this->dados = array();
-        $catdao = new CategoriaDAO();
-
-        try{
-            $categorias = $catdao->update($id, $nome, $descricao);
-            $this->principal("Categoria Atualizada com Sucesso!!!");
-            
-        }catch (PDOException $e){
-            echo "Erro: ".$e->getMessage();
+    public function alterar($categoriaAlterada){
+        $dao = new CategoriaDAO();
+        if ($dao->update($categoriaAlterada)){
+            header("Location:index.php");
+        }else{
+            header("Location:index.php");
         }
     }
 
-    public function incluir(){
-
+    public function insercao(){
         View::carregar('view/template/cabecalho.html');
-        View::carregar('view/categoria/cadastrar.php');
+        View::carregar('view/categoria/incluir.html');
         View::carregar('view/template/rodape.html');
     }
 
-     public function cadastrarCategoria($nome, $descricao){
-          $this->dados = array();
-          $catdao = new CategoriaDAO();
-        try{
-            $categorias = $catdao->insert($nome, $descricao);
-            //var_dump($categorias);
-        }catch (PDOException $e){
-            echo "Erro: ".$e->getMessage();
-        }
-        $this->dados['categorias'] = $categorias;
+    public function inserir($categoriaNova){
 
-        View::carregar('view/template/cabecalho.html');
-        View::carregar('view/categoria/cadastrar.php', $this->dados);
-        View::carregar('view/template/rodape.html');
+        $dao = new CategoriaDAO();
+        if ($dao->insert($categoriaNova)){
+            header("Location:index.php");
+        }else{
+            echo "nao inserido";
+            header("Location:index.php");
+        }
+    }    
+
+    public function excluir($cat){
+        $dao = new CategoriaDAO();
+        if ($dao->delete($cat)){
+            header("Location:index.php");
+        }else{
+            header("Location:index.php");
+        }
     }
 
-       public function deletarCategoria($id){
-        $this->dados = array();
-        $catdao = new CategoriaDAO();
-
-        try{
-            $categorias = $catdao->delete($id);
-            $this->principal("Categoria Excluída com Sucesso!!!");
-            
-        }catch (PDOException $e){
-            echo "Erro: ".$e->getMessage();
-        }
-
-        
-    }
 }
-
-
