@@ -87,9 +87,9 @@ class CategoriaController
         }
     }    
 
-    public function excluir($cat){
+    public function excluir($id){
         $dao = new CategoriaDAO();
-        if ($dao->delete($cat)){
+        if ($dao->delete($id)){
             header("Location:index.php");
         }else{
             header("Location:index.php");

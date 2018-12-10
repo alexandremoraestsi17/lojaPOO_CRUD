@@ -47,12 +47,11 @@ switch ($acao){
         $cat = new CategoriaController();
         $cat->alterar($categoriaAlterada);
         exit;
-
+        
     case 'excluir':
-        $cat = new Categoria();
-        $cat->setId($_GET['id']);
-        $catexc = new CategoriaController();
-        $catexc->excluir($cat);
+        $id = $_GET['id'];
+        $cat = new CategoriaController();
+        $cat->excluir($id);
         exit;
         
     case 'consultar':

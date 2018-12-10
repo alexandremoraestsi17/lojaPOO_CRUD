@@ -64,49 +64,43 @@ class CategoriaDAO extends DAO
     public function insert($categoria){
        //RECEBE UM OBJETO DO TIPO CATEGORIA E 
        //INSERE SEUS DADOS NO BANCO
-       $sql = "INSERT INTO categoria (nome, descricao) VALUES (:nome, :descricao)";
-       $stmt = $this->conexao->prepare($sql);
-       $nome = $categoria->getNome();
-       $descricao = $categoria->getDescricao();
-       $stmt->bindParam(':nome', $nome);
-       $stmt->bindParam(':descricao', $descricao);
-       if ( $stmt->execute()){
-           return true;
-       }else{
-           return false;
-       }
+     $sql = "INSERT INTO categoria (nome, descricao) VALUES (:nome, :descricao)";
+     $stmt = $this->conexao->prepare($sql);
+     $nome = $categoria->getNome();
+     $descricao = $categoria->getDescricao();
+     $stmt->bindParam(':nome', $nome);
+     $stmt->bindParam(':descricao', $descricao);
+     if ( $stmt->execute()){
+         return true;
+     }else{
+         return false;
+     }
+ }
 
+ public function update($categoria){
+    $sql = "UPDATE categoria SET nome=:nome, descricao=:descricao WHERE id=:id";
+    $stmt = $this->conexao->prepare($sql);
+    $id = $categoria->getId();
+    $nome = $categoria->getNome();
+    $desc = $categoria->getDescricao();
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':descricao', $desc);
+    if ( $stmt->execute()){
+        return true;
+    }else{
+        return false;
     }
+}
 
-    public function update($categoria){
-        $sql = "UPDATE categoria SET nome=:nome, descricao=:descricao WHERE id=:id";
-        $stmt = $this->conexao->prepare($sql);
-        $id = $categoria->getId();
-        $nome = $categoria->getNome();
-        $desc = $categoria->getDescricao();
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nome', $nome);
-        $stmt->bindParam(':descricao', $desc);
-        if ( $stmt->execute()){
-            return true;
-        }else{
-            return false;
-        }
-
+public function delete($id){
+    $sql = "DELETE FROM categoria WHERE id=:valorid";
+    $stmt = $this->conexao->prepare($sql);
+    $stmt->bindParam(':valorid', $id);
+    if ( $stmt->execute()){
+        return true;
+    }else{
+        return false;
     }
-
-    public function delete($cat){
-        $sql = "DELETE FROM categoria WHERE id=:id";
-        $stmt = $this->conexao->prepare($sql);
-        $id = $cat->getId();
-        $stmt->bindParam(':id', $id);
-        if ( $stmt->execute()){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-
-    
+}    
 }
